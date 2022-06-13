@@ -1,13 +1,12 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
+from lettings.urls import lettings_extra_patterns
 from . import views
-from lettings.views import lettings_index, letting
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('lettings/', lettings_index, name='lettings_index'),
-    path('lettings/<int:letting_id>/', letting, name='letting'),
+    path('lettings/', include(lettings_extra_patterns)),
     path('profiles/', views.profiles_index, name='profiles_index'),
     path('profiles/<str:username>/', views.profile, name='profile'),
     path('admin/', admin.site.urls),
