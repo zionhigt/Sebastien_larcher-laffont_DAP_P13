@@ -14,7 +14,7 @@ def migrate_data(apps, schema_migration):
     old_profiles_model = apps.get_model('oc_lettings_site', 'profile')
     new_profiles_model = apps.get_model('profiles', 'profile')
 
-    # Migrate new model address
+    # Migrate new model profile
     feed_table(new_profiles_model, old_profiles_model.objects.values())
 
 
