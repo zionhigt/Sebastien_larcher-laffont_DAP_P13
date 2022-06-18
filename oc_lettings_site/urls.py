@@ -4,7 +4,7 @@ from django.urls import path, include
 from lettings.urls import lettings_extra_patterns
 from profiles.urls import profiles_extra_patterns
 
-from . import views
+from lettings_site import views
 
 
 urlpatterns = [
