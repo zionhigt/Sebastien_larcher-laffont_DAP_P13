@@ -24,7 +24,7 @@ class LettingTestCase(TestCase):
         }
         Letting.objects.create(**self.mock_letting)
 
-    def test_site_letting_index_page(self):
+    def test_site_home_index_page(self):
         response = self.client.get(reverse("lettings_index"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'lettings/index.html')
@@ -35,3 +35,24 @@ class LettingTestCase(TestCase):
             '            </a>',
         ])
         self.assertContains(response, letting_html_link)
+
+    def test_site_letting_index_page(self):
+        response = self.client.get(
+            reverse("letting", kwargs={
+                "letting_id": self.mock_letting.get("id"),
+                }
+            )
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'lettings/letting.html')
+        self.assertContains(response, f'<h1>{self.mock_letting.get("title")}</h1>')
+        letting_html_element = "\n".join([
+            f'<p>{self.mock_address.get("number")} {self.mock_address.get("street")}</p>',
+            #
+            f'<p>{self.mock_address.get("city")}, {self.mock_address.get("state")} '\
+            f'{self.mock_address.get("zip_code")}</p>',
+            #
+            f'<p>{self.mock_address.get("country_iso_code")}</p>',
+
+        ])
+        self.assertContains(response, letting_html_element)
