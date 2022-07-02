@@ -35,3 +35,22 @@ class LettingTestCase(TestCase):
             '            </a>',
         ])
         self.assertContains(response, profile_html_link)
+
+    def test_site_profiles_profile_page(self):
+        response = self.client.get(
+            reverse("profile", kwargs={
+                "username": self.mock_user.get("username"),
+                }
+            )
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'profiles/profile.html')
+        self.assertContains(response, f'<h1>{self.mock_user.get("username")}</h1>')
+        profile_html_element = "\n".join([
+            f'<p>First name: {self.mock_user.get("first_name")}</p>',
+            f'<p>Last name: {self.mock_user.get("last_name")}</p>',
+            f'<p>Email: {self.mock_user.get("email")}</p>',
+            f'<p>Favorite city: {self.mock_profile.get("favorite_city")}</p>',
+
+        ])
+        self.assertContains(response, profile_html_element)
