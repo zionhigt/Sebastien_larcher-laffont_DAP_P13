@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from profiles.models import Profile
 
 
-class LettingTestCase(TestCase):
+class ProfileTestCase(TestCase):
     def setUp(self):
         self.mock_user = {
             "id": 1,
