@@ -6,7 +6,18 @@ orbs:
 
 
 jobs:
-  build-and-test: 
+  build: 
+    docker:
+      - image: cimg/python:3.10.2
+    
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+      - run:
+          name: Run migrate
+          command: python3 manage.py migrate
+  test: 
     docker:
       - image: cimg/python:3.10.2
     
@@ -20,6 +31,7 @@ jobs:
 
 
 workflows:
-  sample: 
+  build-and-test: 
     jobs:
-      - build-and-test
+      - build
+      - test
