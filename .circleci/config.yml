@@ -29,24 +29,9 @@ jobs:
           name: Run tests
           command: python3 manage.py test
 
-  run-server: 
-    docker:
-      - image: cimg/python:3.10.2
-    
-    steps:
-      - checkout
-      - python/install-packages:
-          pkg-manager: pip
-      - run:
-          name: Run serever
-          command: python3 manage.py runserver
-
 
 workflows:
   build-and-test: 
     jobs:
       - build
       - test
-  runserver: 
-    jobs:
-      - run-server
