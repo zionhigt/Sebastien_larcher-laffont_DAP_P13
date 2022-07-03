@@ -1,2 +1,2 @@
 config:set DISABLE_COLLECTSTATIC=1
-web: Python3 manage.py runserver
+web: python3 manage.py runserver
