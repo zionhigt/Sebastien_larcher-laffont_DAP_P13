@@ -4,6 +4,8 @@ orbs:
   
   python: circleci/python@1.5.0
   docker: circleci/docker@2.1.2
+  heroku: circleci/heroku@1.2.6
+
 
 jobs:
   build:
@@ -49,6 +51,18 @@ jobs:
           name: Run linter
           command: flake8
 
+  deploy: 
+    docker:
+      - image: "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
+        auth:
+          username: $DOCKER_USERNAME
+          password: $DOCKER_PASSWORD
+    
+    steps:
+      - checkout
+      - setup_remote_docker
+      - heroku/push-docker-image
+
 
 workflows:
   build-and-test: 
@@ -60,3 +74,6 @@ workflows:
       - linting:
           requires:
             - test
+      - deploy:
+          requires:
+            - linting
