@@ -6,10 +6,24 @@ orbs:
 
 
 jobs:
-  
+  build:
+    docker:
+      - image: alpine:3.16
+
+    steps:
+      - checkout
+      run:
+        name: Build Image
+        command: |
+        docker build -tag orange-county-app .
+      run:
+      name: Push Image
+      command: |
+        docker tag orange-county-app "${ECR_ENDPOINT}/orange-county-app:${CIRCLE_SHA1}"
+        docker push "${ECR_ENDPOINT}/orange-county-app:${CIRCLE_SHA1}"
   test: 
     docker:
-      - image: cimg/python:3.10.2
+      - image: "${ECR_ENDPOINT}/orange-county-app:${CIRCLE_SHA1}"
     
     steps:
       - checkout
@@ -20,7 +34,7 @@ jobs:
           command: python3 manage.py test
   linting: 
     docker:
-      - image: cimg/python:3.10.2
+      - image: "${ECR_ENDPOINT}/orange-county-app:${CIRCLE_SHA1}"
     
     steps:
       - checkout
