@@ -7,17 +7,18 @@ orbs:
 
 jobs:
   build:
-    required:
-      - docker
     docker:
       - image: alpine:3.16
+      
+    machine:
+      - image: cimg/python:3.10.2
 
     steps:
       - checkout
       - run:
           name: Build Image
           command: |
-            docker build -tag orange-county-app .
+            docker build -t orange-county-app .
       - run:
           name: Push Image
           command: |
