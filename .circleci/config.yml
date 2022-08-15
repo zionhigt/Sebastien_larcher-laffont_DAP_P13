@@ -5,17 +5,14 @@ orbs:
   python: circleci/python@1.5.0
   docker: circleci/docker@2.1.2
 
-executors:
-  docker-publisher:
+jobs:
+  build:
     docker:
-        - image: circleci/buildpack-deps
+      - image: circleci/buildpack-deps
         auth:
           username: $DOCKER_USERNAME
           password: $DOCKER_PASSWORD
 
-jobs:
-  build:
-    executor: docker-publisher
     steps:
       - checkout
       - setup_remote_docker
@@ -29,7 +26,12 @@ jobs:
             docker tag orange-county-app "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
             docker push "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
   test: 
-    executor: docker-publisher
+    docker:
+      - image: "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
+        auth:
+          username: $DOCKER_USERNAME
+          password: $DOCKER_PASSWORD
+    
     steps:
       - checkout
       - setup_remote_docker
@@ -39,7 +41,12 @@ jobs:
           name: Run tests
           command: python3 manage.py test
   linting: 
-    executor: docker-publisher
+    docker:
+      - image: "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
+        auth:
+          username: $DOCKER_USERNAME
+          password: $DOCKER_PASSWORD
+    
     steps:
       - checkout
       - setup_remote_docker
