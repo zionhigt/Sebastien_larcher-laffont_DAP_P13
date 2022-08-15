@@ -9,10 +9,6 @@ jobs:
   build:
     docker:
       - image: circleci/buildpack-deps
-        auth:
-          username: $DOCKER_USERNAME
-          password: $DOCKER_PASSWORD
-
     steps:
       - checkout
       - setup_remote_docker
@@ -23,6 +19,7 @@ jobs:
       - run:
           name: Push Image
           command: |
+            docker login --username=${DOCKER_USERNAME} --password=${DOCKER_PASSWORD}
             docker tag orange-county-app "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
             docker push "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
   test: 
