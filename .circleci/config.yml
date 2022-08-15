@@ -10,6 +10,9 @@ jobs:
   build:
     docker:
       - image: circleci/buildpack-deps
+      auth:
+        username: $DOCKER_USERNAME
+        password: $DOCKER_PASSWORD
 
     steps:
       - checkout
@@ -26,11 +29,13 @@ jobs:
   test: 
     docker:
       - image: "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
-      username: $DOCKER_USERNAME
-      password: $DOCKER_PASSWORD
+      auth:
+        username: $DOCKER_USERNAME
+        password: $DOCKER_PASSWORD
     
     steps:
       - checkout
+      - setup_remote_docker
       - python/install-packages:
           pkg-manager: pip
       - run:
@@ -39,9 +44,13 @@ jobs:
   linting: 
     docker:
       - image: "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
+      auth:
+        username: $DOCKER_USERNAME
+        password: $DOCKER_PASSWORD
     
     steps:
       - checkout
+      - setup_remote_docker
       - python/install-packages:
           pkg-manager: pip
       - run:
