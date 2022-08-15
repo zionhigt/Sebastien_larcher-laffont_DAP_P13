@@ -50,6 +50,7 @@ jobs:
       - run:
           name: Run linter
           command: flake8
+
   install_deploy:
         description: |
             Download and install the Heroku CLI. Will be skipped if the CLI is already installed in the system.
@@ -84,9 +85,9 @@ workflows:
       - linting:
           requires:
             - test
-      - install-deploy:
+      - install_deploy:
           requires:
             - linting
       - deploy:
           requires:
-            - install-deploy
+            - install_deploy
