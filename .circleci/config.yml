@@ -33,7 +33,7 @@ jobs:
       - checkout
       - setup_remote_docker
       - python/install-packages:
-          pkg-manager: python3 -m pip
+          pkg-manager: pip
       - run:
           name: Run tests
           command: python3 manage.py test
