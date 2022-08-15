@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   
   python: circleci/python@1.5.0
+  docker: circleci/docker@2.1.2
 
 
 jobs:
@@ -16,7 +17,6 @@ jobs:
       - run:
           name: Build Image
           command: |
-            apt install docker -y 
             docker build -t orange-county-app .
       - run:
           name: Push Image
