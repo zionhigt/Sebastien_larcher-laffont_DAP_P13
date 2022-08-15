@@ -50,6 +50,18 @@ jobs:
       - run:
           name: Run linter
           command: flake8
+  install_deploy:
+        description: |
+            Download and install the Heroku CLI. Will be skipped if the CLI is already installed in the system.
+        steps:
+            - run:
+                command: |
+                    if [[ $(command -v heroku) == "" ]]; then
+                      curl https://cli-assets.heroku.com/install.sh | sh
+                    else
+                      echo "Heroku is already installed. No operation was performed."
+                    fi
+                name: Install Heroku CLI (If not installed)
 
   deploy: 
     docker:
@@ -72,6 +84,9 @@ workflows:
       - linting:
           requires:
             - test
-      - deploy:
+      - install-deploy:
           requires:
             - linting
+      - deploy:
+          requires:
+            - install-deploy
