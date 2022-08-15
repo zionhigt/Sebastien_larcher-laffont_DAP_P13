@@ -54,6 +54,10 @@ jobs:
   install_deploy:
         description: |
             Download and install the Heroku CLI. Will be skipped if the CLI is already installed in the system.
+
+        docker:
+          - image: circleci/buildpack-deps
+          
         steps:
             - run:
                 command: |
