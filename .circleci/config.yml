@@ -57,7 +57,7 @@ jobs:
 
         docker:
           - image: circleci/buildpack-deps
-          
+
         steps:
             - run:
                 command: |
@@ -70,13 +70,15 @@ jobs:
 
   deploy: 
     docker:
-      - image: "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
+      - image: "circleci/buildpack-deps"
         auth:
           username: $DOCKER_USERNAME
           password: $DOCKER_PASSWORD
     
     steps:
-      - heroku/push-docker-image
+      - heroku/push-docker-image:
+        tag: sebdevdock/orange_county_lettings:${CIRCLE_SHA1}
+
 
 
 workflows:
