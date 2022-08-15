@@ -14,7 +14,14 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run: docker build -t orange-county-app .
+      - run:
+        name: Install docker client
+        command: |
+          sudo apt-get install docker 
+      - run:
+          name: Build Image
+          command: |
+            docker build -t orange-county-app .
       - run:
           name: Push Image
           command: |
