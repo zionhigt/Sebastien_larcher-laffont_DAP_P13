@@ -15,7 +15,7 @@ jobs:
       - run:
           name: Build Image
           command: |
-          docker build -tag orange-county-app .
+            docker build -tag orange-county-app .
       - run:
           name: Push Image
           command: |
