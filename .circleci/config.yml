@@ -91,9 +91,9 @@ workflows:
       - linting:
           requires:
             - test
-      - install_deploy:
-          requires:
-            - linting
       - deploy:
           requires:
-            - install_deploy
+            - linting
+      # - deploy:
+          # requires:
+          #   - install_deploy
