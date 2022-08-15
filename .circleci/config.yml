@@ -15,9 +15,9 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-        name: Install docker client
-        command: |
-          sudo apt-get install docker 
+          name: Install docker client
+          command: |
+            sudo apt-get install docker 
       - run:
           name: Build Image
           command: |
