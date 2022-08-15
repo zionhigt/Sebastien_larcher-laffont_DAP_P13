@@ -52,5 +52,9 @@ workflows:
   build-and-test: 
     jobs:
       - build
-      - test
-      - linting
+      - test:
+          requires:
+            - build
+      - linting:
+          requires:
+            - test
