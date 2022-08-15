@@ -32,8 +32,6 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - python/install-packages:
-          pkg-manager: pip
       - run:
           name: Run tests
           command: python3 manage.py test
@@ -47,8 +45,6 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - python/install-packages:
-          pkg-manager: pip
       - run:
           name: Run linter
           command: flake8
