@@ -21,7 +21,7 @@ jobs:
       - run:
           name: Push Image
           command: |
-            docker login sebdevdock/orange_county_lettings -U $(DOCKER_USERNAME) -p $(DOCKER_PASSWORD)
+            docker login sebdevdock/orange_county_lettings -U ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
             docker tag orange-county-app "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
             docker push "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
   test: 
