@@ -21,11 +21,11 @@ jobs:
       - run:
           name: Push Image
           command: |
-            docker tag orange-county-app "${ECR_ENDPOINT}/orange-county-app:${CIRCLE_SHA1}"
-            docker push "${ECR_ENDPOINT}/orange-county-app:${CIRCLE_SHA1}"
+            docker tag orange-county-app "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
+            docker push "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
   test: 
     docker:
-      - image: "${ECR_ENDPOINT}/orange-county-app:${CIRCLE_SHA1}"
+      - image: "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
     
     steps:
       - checkout
@@ -36,7 +36,7 @@ jobs:
           command: python3 manage.py test
   linting: 
     docker:
-      - image: "${ECR_ENDPOINT}/orange-county-app:${CIRCLE_SHA1}"
+      - image: "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
     
     steps:
       - checkout
