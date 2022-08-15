@@ -9,15 +9,11 @@ orbs:
 jobs:
   build:
     docker:
-      - image: alpine:3.16
+      - image: circleci/buildpack-deps
 
     steps:
       - checkout
       - setup_remote_docker
-      - run:
-          name: Install docker client
-          command: |
-            sudo apt-get install docker 
       - run:
           name: Build Image
           command: |
