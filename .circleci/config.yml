@@ -28,7 +28,7 @@ jobs:
           pkg-manager: pip
       - run:
           name: Run linter
-          command: python3 flake8
+          command: flake8
 
 
 workflows:
