@@ -19,9 +19,12 @@ jobs:
           command: |
             docker build -t orange-county-app .
       - run:
-          name: Push Image
+          name: Docker login
           command: |
             docker login --username=${DOCKER_USERNAME} --password=${DOCKER_PASSWORD}
+      - run:
+          name: Push Image
+          command: |
             docker tag orange-county-app "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
             docker push "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
   test: 
@@ -29,6 +32,10 @@ jobs:
       - image: "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
     
     steps:
+      - run:
+          name: Docker login
+          command: |
+            docker login --username=${DOCKER_USERNAME} --password=${DOCKER_PASSWORD}
       - checkout
       - python/install-packages:
           pkg-manager: pip
@@ -40,6 +47,10 @@ jobs:
       - image: "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
     
     steps:
+      - run:
+          name: Docker login
+          command: |
+            docker login --username=${DOCKER_USERNAME} --password=${DOCKER_PASSWORD}
       - checkout
       - python/install-packages:
           pkg-manager: pip
