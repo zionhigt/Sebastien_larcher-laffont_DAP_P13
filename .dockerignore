@@ -1,0 +1,4 @@
+Dockerfile
+.circleci/
+.pytest_cache/
+Procfile
