@@ -9,7 +9,7 @@ orbs:
 jobs:
   test: 
     docker:
-      - image: "circleci/buildpack-deps"
+      - image: "cimg/python:3.9.2"
     steps:
       - checkout
       - setup_remote_docker
@@ -18,7 +18,7 @@ jobs:
           command: python3 manage.py test
   linting: 
     docker:
-      - image: "circleci/buildpack-deps"
+      - image: "cimg/python:3.9.2"
     steps:
       - checkout
       - setup_remote_docker
