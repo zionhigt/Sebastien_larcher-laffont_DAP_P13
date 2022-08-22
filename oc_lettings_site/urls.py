@@ -11,4 +11,5 @@ urlpatterns = [
     path('lettings/', include(lettings_extra_patterns)),
     path('profiles/', include(profiles_extra_patterns)),
     path('admin/', admin.site.urls),
+    path('sentry/', lambda *kwargs, **args: 1/0),
 ]
