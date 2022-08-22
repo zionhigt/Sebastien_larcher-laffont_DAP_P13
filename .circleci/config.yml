@@ -28,7 +28,7 @@ jobs:
           name: Run linter
           command: |
             python3 -m pip install -r requirements.txt
-            flake8
+            python3 -m flake8
   build:
     docker:
       - image: circleci/buildpack-deps
