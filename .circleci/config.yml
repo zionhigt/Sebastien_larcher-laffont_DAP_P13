@@ -25,7 +25,7 @@ jobs:
             python3 -m flake8
   build:
     docker:
-      - image: cimg/base
+      - image: cimg/base:stable
     steps:
       - checkout
       - setup_remote_docker
