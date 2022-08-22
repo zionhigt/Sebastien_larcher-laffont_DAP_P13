@@ -48,7 +48,7 @@ workflows:
       - linting
       - test:
           requires:
-            - linting
+              - linting
       - build:
         requires:
             - test
