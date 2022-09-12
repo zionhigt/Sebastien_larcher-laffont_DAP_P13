@@ -2,8 +2,6 @@ version: 2.1
 
 jobs:
   notify-sentry-deploy:
-    executor:
-    # Specify executor for running deploy job
     environment:
       SENTRY_ORG: orange-county
       SENTRY_PROJECT: oc-orange-county-lettings
