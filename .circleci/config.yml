@@ -1,0 +1,52 @@
+version: 2.1
+
+jobs:
+  test: 
+    docker:
+      - image: "cimg/python:3.9.2"
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Run tests
+          command: |
+            python3 -m pip install -r requirements.txt
+            python3 manage.py test
+  linting: 
+    docker:
+      - image: "cimg/python:3.9.2"
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Run linter
+          command: |
+            python3 -m pip install -r requirements.txt
+            python3 -m flake8
+  build:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Image
+          command: |
+            docker build -t orange-county-app .
+      - run:
+          name: Push Image
+          command: |
+            docker login --username=${DOCKER_USERNAME} --password=${DOCKER_PASSWORD}
+            docker tag orange-county-app "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
+            docker push "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
+
+workflows:
+  build-and-test: 
+    jobs:
+      - linting
+      - test:
+          requires:
+            - linting
+      - build:
+          requires:
+            - test

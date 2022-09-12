@@ -1,13 +1,15 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
-from . import views
+from lettings.urls import lettings_extra_patterns
+from profiles.urls import profiles_extra_patterns
+from home.urls import home_extra_patterns
+
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('lettings/', views.lettings_index, name='lettings_index'),
-    path('lettings/<int:letting_id>/', views.letting, name='letting'),
-    path('profiles/', views.profiles_index, name='profiles_index'),
-    path('profiles/<str:username>/', views.profile, name='profile'),
+    path('', include(home_extra_patterns)),
+    path('lettings/', include(lettings_extra_patterns)),
+    path('profiles/', include(profiles_extra_patterns)),
     path('admin/', admin.site.urls),
+    path('sentry/', lambda *kwargs, **args: 1/0),
 ]
