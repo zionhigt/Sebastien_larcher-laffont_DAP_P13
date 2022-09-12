@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   notify-sentry-deploy:
     environment:
-      SENTRY_ORG: orange-county
+      SENTRY_ORG: larcher-laffont
       SENTRY_PROJECT: oc-orange-county-lettings
       SENTRY_ENVIRONMENT: production
     machine: true
