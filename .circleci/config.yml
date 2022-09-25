@@ -1,24 +1,6 @@
 version: 2.1
 
 jobs:
-  notify-sentry-deploy:
-    environment:
-      SENTRY_ORG: larcher-laffont
-      SENTRY_PROJECT: oc-orange-county-lettings
-      SENTRY_ENVIRONMENT: production
-    machine: true
-    steps:
-      - checkout
-      - run:
-          name: Create release and notify Sentry of deploy
-          command: |
-            curl -sL https://sentry.io/get-cli/ | bash
-            export SENTRY_RELEASE=$(sentry-cli releases propose-version)
-            sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE
-            sentry-cli releases set-commits $SENTRY_RELEASE --auto
-            sentry-cli releases files $SENTRY_RELEASE upload-sourcemaps path-to-sourcemaps-if-applicable
-            sentry-cli releases finalize $SENTRY_RELEASE
-            sentry-cli releases deploys $SENTRY_RELEASE new -e $SENTRY_ENVIRONMENT
   test: 
     docker:
       - image: "cimg/python:3.9.2"
@@ -58,6 +40,33 @@ jobs:
             docker tag orange-county-app "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
             docker push "sebdevdock/orange_county_lettings:${CIRCLE_SHA1}"
 
+    notify-sentry-deploy:
+      environment:
+        SENTRY_ORG: larcher-laffont
+        SENTRY_PROJECT: oc-orange-county-lettings
+        SENTRY_ENVIRONMENT: production
+      machine: true
+      steps:
+        - checkout
+        - run:
+            name: Create release and notify Sentry of deploy
+            command: |
+              curl -sL https://sentry.io/get-cli/ | bash
+              export SENTRY_RELEASE=$(sentry-cli releases propose-version)
+              sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE
+              sentry-cli releases set-commits $SENTRY_RELEASE --auto
+              sentry-cli releases files $SENTRY_RELEASE upload-sourcemaps path-to-sourcemaps-if-applicable
+              sentry-cli releases finalize $SENTRY_RELEASE
+              sentry-cli releases deploys $SENTRY_RELEASE new -e $SENTRY_ENVIRONMENT
+    deploy:
+      machine : true
+      steps:
+          - checkout
+          - run:
+              name: Deploy Master to Heroku
+              command: |
+              git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+
 workflows:
   build-and-test: 
     jobs:
@@ -71,3 +80,9 @@ workflows:
       - notify-sentry-deploy:
           requires:
             - build
+      - deploy:
+          requires:
+            - notify-sentry-deploy
+          filters:
+            branches:
+                only: master
