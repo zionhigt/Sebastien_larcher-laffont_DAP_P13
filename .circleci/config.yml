@@ -79,6 +79,9 @@ workflows:
       - notify-sentry-deploy:
           requires:
             - build
+          filters:
+            branches:
+              only: master
       - deploy:
           requires:
             - notify-sentry-deploy
