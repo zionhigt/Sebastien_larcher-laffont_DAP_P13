@@ -2,3 +2,4 @@ Dockerfile
 .circleci/
 .pytest_cache/
 Procfile
+static/
